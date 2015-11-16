@@ -64,7 +64,7 @@ class Rabbit(object):
     foundCommand = False
     for command in config['commands']:
       match = True
-      mapArray = self.converStringToArgs(command['map'])
+      mapArray = self.converStringToArgs(command['hop'])
       if len(inputArgs) < len(mapArray):
         continue
       for index, arg in enumerate(mapArray):
@@ -74,10 +74,28 @@ class Rabbit(object):
         foundCommand = command
     return foundCommand
 
+  def injectEnvVariables(self, commandArgs):
+    newArgs = []
+    for arg in commandArgs:
+      try:
+        varStart = arg.index("$") + 1
+        varEnd = arg.find(" ", varStart) + 1
+        if varEnd <= 0: varEnd = len(arg)
+        find = arg[varStart:varEnd]
+        injected = os.environ.get(find)
+        newArg = arg.replace(find, injected)
+        newArg = newArg.replace("$", "", 1)
+        newArgs.append(newArg)
+      except:
+        newArgs.append(arg)
+        continue
+    return newArgs
+
   def proxyCommand(self, command, inputArgs):
     args = self.converStringToArgs(command['to'])
-    tail = inputArgs[len(self.converStringToArgs(command['map'])):]
+    tail = inputArgs[len(self.converStringToArgs(command['hop'])):]
     args += tail
+    args = self.injectEnvVariables(args)
     return self.run(args)
 
 

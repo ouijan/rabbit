@@ -38,7 +38,7 @@ class TestRabbit(unittest.TestCase):
   def test_it_can_find_command_in_config(self):
     command = ['hello', 'world']
     expected = {
-      'map': 'hello world',
+      'hop': 'hello world',
       'to': 'echo "hello world"' 
     }
     config = { 'commands': [ expected ] }
@@ -48,7 +48,7 @@ class TestRabbit(unittest.TestCase):
   def test_it_can_find_command_in_config_no_match(self):
     command = ['hello']
     expected = {
-      'map': 'hello world',
+      'hop': 'hello world',
       'to': 'echo "hello world"' 
     }
     config = { 'commands': [ expected ] }

@@ -1,8 +1,10 @@
 commands:
-  - map: hello world
+  - hop: hello world
     to: echo hello world
     description: echos 'hello world' to the command line
-  - map: ping google
+  - hop: ping google
     to: ping www.google.com
-  - map: node
+  - hop: node
     to: docker run -it --rm node
+  - hop: pwd
+    to: echo $PWD
