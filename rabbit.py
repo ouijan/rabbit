@@ -71,6 +71,10 @@ class Cli:
       exit()
     config = Rabbit().read(yamlFile)
     print config
+    # Find command in config
+    # proxy command
+    # run proxied command
+    
 
     
     

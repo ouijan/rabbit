@@ -19,8 +19,10 @@ commands:
 - 'rabbit help' will display a list of all available rabbit commands
 
 ## To Do
-- Implement ymal reading
 - Implement command proxy
+	- Find command in config
+  - proxy command
+  - run proxied command
 - 'rabbit help' should be a reserved command that lists all rabbit commands. It will display each command's description property OR their to property if a description is not set
 
 
