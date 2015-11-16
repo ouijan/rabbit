@@ -14,15 +14,21 @@ commands:
     description: echos 'run node' to the command line
 ```
 
-## Usage
+### Usage
 - All arguments provided after the rabbit 'map' decleration will be forwarded to the proxied command
 - 'rabbit help' will display a list of all available rabbit commands
 
-### To Do
+## To Do
 - Implement ymal reading
 - Implement command proxy
 - 'rabbit help' should be a reserved command that lists all rabbit commands. It will display each command's description property OR their to property if a description is not set
 
-## Required Packages
+
+### Testing
+Run the following command from project root directory to execute the test suite
+
+	$ python -m unittest discover tests -v
+
+### Required Packages
 - [PyYaml](http://pyyaml.org/)
 
