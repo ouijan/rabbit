@@ -47,37 +47,62 @@ class Rabbit(object):
       if trackingString:
         thisArg = " ".join((thisArg, item))
         # If string ends with "
-        if item[-1:] == '"':
+        if item[-1:] == '"' or item[-1:] == "'":
           args.append(thisArg)
           trackingString = False
       # If not tracking argument
       else:
         # If string begins with "
-        if item[:1] == '"':
+        if item[:1] == '"' or item[:1] == "'":
           trackingString = True
           thisArg = item
         else:
           args.append(item)
     return args
 
+  def findCommandInConfig(self, inputArgs, config):
+    foundCommand = False
+    for command in config['commands']:
+      match = True
+      mapArray = self.converStringToArgs(command['map'])
+      if len(inputArgs) < len(mapArray):
+        continue
+      for index, arg in enumerate(mapArray):
+        if arg != inputArgs[index]:
+          match = False
+      if match:
+        foundCommand = command
+    return foundCommand
+
+  def proxyCommand(self, command, inputArgs):
+    args = self.converStringToArgs(command['to'])
+    tail = inputArgs[len(self.converStringToArgs(command['map'])):]
+    args += tail
+    return self.run(args)
+
+
 # Command Line Interface Handler
 class Cli:
   'A class to handle running the command line tool & parsing command line arguments'
   def __init__(self):
     args = sys.argv
+    args.pop(0)
     yamlFile = Rabbit().findConfig()
     if yamlFile == False:
       print "Couldn't find " + config['fileName']
       exit()
     config = Rabbit().read(yamlFile)
-    print config
-    # Find command in config
-    # proxy command
-    # run proxied command
-    
-
-    
-    
+    command = Rabbit().findCommandInConfig(args, config)
+    if command == False:
+      print "Couldn't find that command"
+      exit()
+    Rabbit().proxyCommand(command, args)    
 
 if __name__ == "__main__":
-  Cli()
+  try:
+    Cli()
+  except KeyboardInterrupt:
+    try:
+        sys.exit(0)
+    except SystemExit:
+        os._exit(0)

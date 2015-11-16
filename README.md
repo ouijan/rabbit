@@ -20,9 +20,8 @@ commands:
 
 ## To Do
 - Implement command proxy
-	- Find command in config
-  - proxy command
-  - run proxied command
+  - command argument variables
+  - interpreting env variables
 - 'rabbit help' should be a reserved command that lists all rabbit commands. It will display each command's description property OR their to property if a description is not set
 
 

@@ -23,8 +23,35 @@ class TestRabbit(unittest.TestCase):
     result = Rabbit().converStringToArgs(command)
     self.assertEqual(result, expected)
 
-  def test_it_can_convert_a_command_string_to_array_with_quotes(self):
+  def test_it_can_convert_a_command_string_to_array_with_quotes_single(self):
+    command = "echo 'hello world'"
+    expected = ['echo', "'hello world'"]
+    result = Rabbit().converStringToArgs(command)
+    self.assertEqual(result, expected)
+
+  def test_it_can_convert_a_command_string_to_array_with_quotes_double(self):
     command = 'echo "hello world"'
     expected = ['echo', '"hello world"']
     result = Rabbit().converStringToArgs(command)
     self.assertEqual(result, expected)
+
+  def test_it_can_find_command_in_config(self):
+    command = ['hello', 'world']
+    expected = {
+      'map': 'hello world',
+      'to': 'echo "hello world"' 
+    }
+    config = { 'commands': [ expected ] }
+    result = Rabbit().findCommandInConfig(command, config)
+    self.assertEqual(result, expected)
+
+  def test_it_can_find_command_in_config_no_match(self):
+    command = ['hello']
+    expected = {
+      'map': 'hello world',
+      'to': 'echo "hello world"' 
+    }
+    config = { 'commands': [ expected ] }
+    result = Rabbit().findCommandInConfig(command, config)
+    self.assertEqual(result, False)
+
