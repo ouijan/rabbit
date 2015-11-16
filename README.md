@@ -20,8 +20,8 @@ commands:
 
 ## To Do
 - Implement command proxy
-  - command argument variables
-  - interpreting env variables
+  - command argument 
+  - evaluating variable functions eg '${docker-machine ip default}'
 - 'rabbit help' should be a reserved command that lists all rabbit commands. It will display each command's description property OR their to property if a description is not set
 
 
