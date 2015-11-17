@@ -101,6 +101,14 @@ class Rabbit(object):
     args = self.injectEnvVariables(args)
     return self.run(args)
 
+  def displayHelp(self, config):
+    """translates config into help and prints it"""
+    print "\033[1m\033[4m\033[32mRabbit Command Line Hopper \033[0m"
+    for command in config['commands']:
+      default = "runs '" + command['to'] + "'"
+      description = command.get('description', default)
+      print "\033[1m\033[36m%-20s \033[0m %-10s" % (command['hop'], description)
+      
 
 # Command Line Interface Handler
 class Cli:
@@ -112,10 +120,13 @@ class Cli:
       print "Couldn't find " + config['fileName']
       exit()
     config = Rabbit().read(yamlFile)
+    if args[0] == "help":
+      Rabbit().displayHelp(config)
+      exit()
     command = Rabbit().findCommandInConfig(args, config)
     if not command:
-      print "Couldn't find that command"
-      exit()
+      print "Couldn't find that command. Try 'rabbit help'"
+      exit()    
     Rabbit().proxyCommand(command, args)    
 
 if __name__ == "__main__":
