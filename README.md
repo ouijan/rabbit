@@ -23,10 +23,9 @@ commands:
 - Implement command proxy
   - proxying command variables
   - rewrite convertStrToArgs to walk though string generating args
-  - Revisit env parsing
-    - Look into parsing environmental vars to the subproccess.call()
 - Investigate python pbr for setup.py generation etc
 - Improve test framework
+- Grouping of commands in "family" for help
 
 
 ### Testing

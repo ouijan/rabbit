@@ -13,9 +13,9 @@ config = {
 class Rabbit(object):
   """Command Line Hopper"""
 
-  def run(self, args):
-    """Runs the array of arguments"""
-    subprocess.call(args);
+  def run(self, command):
+    """Runs the string of command"""
+    subprocess.call(command, shell=True);
 
   def read(self, inputFile):
     """Read the given yaml file and return it as a dict"""
@@ -75,30 +75,13 @@ class Rabbit(object):
         return command
     return False
 
-  def injectEnvVariables(self, commandArgs):
-    """handles injecting environmental variables to the arguement"""
-    newArgs = []
-    for arg in commandArgs:
-      try:
-        varStart = arg.index("$") + 1
-        varEnd = arg.find(" ", varStart) + 1
-        if varEnd <= 0: varEnd = len(arg)
-        find = arg[varStart:varEnd]
-        injected = os.environ.get(find)
-        newArg = arg.replace(find, injected)
-        newArg = newArg.replace("$", "", 1)
-        newArgs.append(newArg)
-      except:
-        newArgs.append(arg)
-        continue
-    return newArgs
-
   def proxyCommand(self, command, inputArgs):
     """handles editing and running the command"""
     args = self.converStringToArgs(command['to'])
     tail = inputArgs[len(self.converStringToArgs(command['hop'])):]
     args += tail
-    args = self.injectEnvVariables(args)
+    args = " ".join(args)
+    # args = self.injectEnvVariables(args)
     return self.run(args)
 
   def displayHelp(self, config):
@@ -120,7 +103,7 @@ class Cli:
       print "Couldn't find " + config['fileName']
       exit()
     config = Rabbit().read(yamlFile)
-    if args[0] == "help":
+    if len(args) == 0 or args[0] == "help":
       Rabbit().displayHelp(config)
       exit()
     command = Rabbit().findCommandInConfig(args, config)

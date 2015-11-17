@@ -4,10 +4,13 @@ commands:
     description: echos 'hello world' to the command line
   - hop: ping google
     to: ping www.google.com
+    description: starts pinging www.google.com
   - hop: node
     to: docker run -it --rm node
-  - hop: pwd
+    description: opens an interactive node cli in a docker container
+  - hop: env simple
     to: echo $PWD
-  - hop: test
-    to: python -m unittest discover tests -v
-    description: runs the test suite for this application
+  - hop: env escaped
+    to: echo ${PWD}
+  - hop: env function
+    to: echo $(echo $PWD)
