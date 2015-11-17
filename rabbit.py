@@ -11,20 +11,20 @@ config = {
 }
 
 class Rabbit(object):
-  'Command Line Hopper'
+  """Command Line Hopper"""
 
   def run(self, args):
-    'Runs the array of arguments'
+    """Runs the array of arguments"""
     subprocess.call(args);
 
   def read(self, inputFile):
-    'Read the given yaml file and return it as a dict'
+    """Read the given yaml file and return it as a dict"""
     stream = file(inputFile, 'r')
     value = yaml.load(stream)
     return value
 
   def findConfig(self):
-    'finds the path to the closest config file'
+    """searches for the config file based on the current working directory"""
     fileFound = False
     depth = 0
     while (fileFound == False and depth < config['searchDepth']):
@@ -34,11 +34,12 @@ class Rabbit(object):
       search += config['fileName']
       if os.path.isfile(search):
         fileFound = search
-      depth += depth + 1
+      depth += 1
     return fileFound
 
   def converStringToArgs(self, inputCall):
-    preJoin = string.split(inputCall, " ")
+    """Converts a string command into the required list of args"""
+    preJoin = inputCall.split()
     args = []
     trackingString = False
     thisArg = ''
@@ -61,7 +62,7 @@ class Rabbit(object):
     return args
 
   def findCommandInConfig(self, inputArgs, config):
-    foundCommand = False
+    """searches for the command for the given args in the config"""
     for command in config['commands']:
       match = True
       mapArray = self.converStringToArgs(command['hop'])
@@ -71,10 +72,11 @@ class Rabbit(object):
         if arg != inputArgs[index]:
           match = False
       if match:
-        foundCommand = command
-    return foundCommand
+        return command
+    return False
 
   def injectEnvVariables(self, commandArgs):
+    """handles injecting environmental variables to the arguement"""
     newArgs = []
     for arg in commandArgs:
       try:
@@ -92,6 +94,7 @@ class Rabbit(object):
     return newArgs
 
   def proxyCommand(self, command, inputArgs):
+    """handles editing and running the command"""
     args = self.converStringToArgs(command['to'])
     tail = inputArgs[len(self.converStringToArgs(command['hop'])):]
     args += tail
@@ -101,17 +104,16 @@ class Rabbit(object):
 
 # Command Line Interface Handler
 class Cli:
-  'A class to handle running the command line tool & parsing command line arguments'
+  """A class to handle running the command line tool & parsing command line arguments"""
   def __init__(self):
-    args = sys.argv
-    args.pop(0)
+    args = sys.argv[1:]
     yamlFile = Rabbit().findConfig()
-    if yamlFile == False:
+    if not yamlFile:
       print "Couldn't find " + config['fileName']
       exit()
     config = Rabbit().read(yamlFile)
     command = Rabbit().findCommandInConfig(args, config)
-    if command == False:
+    if not command:
       print "Couldn't find that command"
       exit()
     Rabbit().proxyCommand(command, args)    
@@ -120,7 +122,4 @@ if __name__ == "__main__":
   try:
     Cli()
   except KeyboardInterrupt:
-    try:
-        sys.exit(0)
-    except SystemExit:
-        os._exit(0)
+    exit()

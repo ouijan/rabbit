@@ -8,3 +8,6 @@ commands:
     to: docker run -it --rm node
   - hop: pwd
     to: echo $PWD
+  - hop: test
+    to: python -m unittest discover tests -v
+    description: runs the test suite for this application
