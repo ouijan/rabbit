@@ -39,26 +39,41 @@ class Rabbit(object):
 
   def converStringToArgs(self, inputCall):
     """Converts a string command into the required list of args"""
-    preJoin = inputCall.split()
+    # print inputCall
     args = []
+    current = ""
     trackingString = False
-    thisArg = ''
-    for item in preJoin:
-      # If tracking an argument
-      if trackingString:
-        thisArg = " ".join((thisArg, item))
-        # If string ends with "
-        if item[-1:] == '"' or item[-1:] == "'":
-          args.append(thisArg)
-          trackingString = False
-      # If not tracking argument
+    escaped = False
+    for char in inputCall:
+
+      if not trackingString:
+
+        # Add to args
+        if char.isspace():
+          args.append(current)
+          current = ""
+          continue
+
+        # start tracking string
+        if char == '"' or char == "'":
+          trackingString = char
+
+        current += char
+
       else:
-        # If string begins with "
-        if item[:1] == '"' or item[:1] == "'":
-          trackingString = True
-          thisArg = item
-        else:
-          args.append(item)
+
+        # handle escaped chars
+        if "\\" + char == "\\":
+          print 'escape found'
+          escaped = True
+
+        # stop tracking a string
+        if not escaped and char == trackingString:
+          trackingString = False
+
+        current += char
+
+    args.append(current)
     return args
 
   def findCommandInConfig(self, inputArgs, config):
@@ -81,7 +96,6 @@ class Rabbit(object):
     tail = inputArgs[len(self.converStringToArgs(command['hop'])):]
     args += tail
     args = " ".join(args)
-    # args = self.injectEnvVariables(args)
     return self.run(args)
 
   def displayHelp(self, config):
@@ -92,11 +106,9 @@ class Rabbit(object):
       description = command.get('description', default)
       print "\033[1m\033[36m%-20s \033[0m %-10s" % (command['hop'], description)
       
-
-# Command Line Interface Handler
-class Cli:
-  """A class to handle running the command line tool & parsing command line arguments"""
-  def __init__(self):
+def main():
+  """Main entrypoint to the application"""
+  try:
     args = sys.argv[1:]
     yamlFile = Rabbit().findConfig()
     if not yamlFile:
@@ -110,10 +122,10 @@ class Cli:
     if not command:
       print "Couldn't find that command. Try 'rabbit help'"
       exit()    
-    Rabbit().proxyCommand(command, args)    
+    Rabbit().proxyCommand(command, args)
 
-if __name__ == "__main__":
-  try:
-    Cli()
   except KeyboardInterrupt:
     exit()
+
+if __name__ == "__main__":
+  main()

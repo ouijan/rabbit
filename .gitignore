@@ -1,1 +1,17 @@
+*.egg*
+*.mo
 *.pyc
+.coverage
+.testrepository
+.tox
+AUTHORS
+build/*
+ChangeLog
+cover/*
+dist/*
+doc/build
+doc/source/api/
+subunit.log
+tools/lintstack.head.py
+tools/pylint_exceptions
+.cache

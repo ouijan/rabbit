@@ -1,4 +1,6 @@
 commands:
+  - hop: rebuild
+    to: python setup.py build && python setup.py install
   - hop: hello world
     to: echo hello world
     description: echos 'hello world' to the command line

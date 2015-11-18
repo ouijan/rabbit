@@ -1,7 +1,7 @@
 import unittest
 import mock
 import yaml
-from rabbit import Rabbit
+from rabbit.rabbit import Rabbit
 
 class TestRabbit(unittest.TestCase):
 
@@ -13,9 +13,9 @@ class TestRabbit(unittest.TestCase):
 
   @mock.patch('rabbit.subprocess')
   def test_it_can_run_a_command(self, subprocess_mock):
-    callArgs = ["echo", "hello world"]
+    callArgs = "echo hello world"
     result = Rabbit().run(callArgs)
-    subprocess_mock.call.assert_called_with(callArgs)
+    subprocess_mock.call.assert_called_with(callArgs, shell=True)
 
   def test_it_can_convert_a_command_string_to_array(self):
     command = 'test command example'
@@ -32,6 +32,12 @@ class TestRabbit(unittest.TestCase):
   def test_it_can_convert_a_command_string_to_array_with_quotes_double(self):
     command = 'echo "hello world"'
     expected = ['echo', '"hello world"']
+    result = Rabbit().converStringToArgs(command)
+    self.assertEqual(result, expected)
+  
+  def test_it_can_convert_a_command_string_to_array_with_escaped_quotes(self):
+    command = "echo 'rabbit\'s string'"
+    expected = ['echo', "'rabbit\'s string"]
     result = Rabbit().converStringToArgs(command)
     self.assertEqual(result, expected)
 
