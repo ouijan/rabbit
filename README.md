@@ -21,15 +21,26 @@ commands:
 
 ## To Do
 - Implement command proxy
+  - Break into classes
+    - Display: handle printing to console
+      - help
+      - colours
+    - Command: a command object
+      - matches
+    - Config: Keeps track of configs
+      - find
+      - loadConfig
+      - getConfig
+  - handle multiple/compound configs
+    - priority: current folder > global
   - proxying command variables in command['hop'] > command['to']
   - rewrite convertStrToArgs to walk though string generating args
     - Does it need to be an array at all? probably not
 - Read home directory for rabbit.yaml and join to list of commands
   - Project commands > global commands
 - Interpret multi line command 'to' arguments like a bash script
-- Investigate python pbr for setup.py generation etc
 - Improve test framework
-  - Migrate to tox
+  - add py34 to tox testing
 - Grouping of commands in "family" for help.
   - Namespaced with .
   - Recognise commands in a family and auto generate help for them
