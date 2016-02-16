@@ -45,13 +45,13 @@
 #     result = Rabbit().findCommandInConfig(command, config)
 #     self.assertEqual(result, expected)
 
-    # def test_it_can_find_command_in_config_no_match(self):
-    #   command = ['hello']
-    #   expected = {
-    #     'hop': 'hello world',
-    #     'to': 'echo "hello world"' 
-    #   }
-    #   config = { 'commands': [ expected ] }
-    #   result = Rabbit().findCommandInConfig(command, config)
-    #   self.assertEqual(result, False)
+#     def test_it_can_find_command_in_config_no_match(self):
+#       command = ['hello']
+#       expected = {
+#         'hop': 'hello world',
+#         'to': 'echo "hello world"' 
+#       }
+#       config = { 'commands': [ expected ] }
+#       result = Rabbit().findCommandInConfig(command, config)
+#       self.assertEqual(result, False)
 

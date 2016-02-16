@@ -7,7 +7,7 @@ A simple yaml based proxy for command line actions
 - All arguments provided after the rabbit 'hop' decleration will be appended to the proxied command
 
 ## Configuration
-Rabbit will look for the closest rabbit.yaml file. This [yaml format](http://docs.ansible.com/YAMLSyntax.html) must contain a commands property. Thie commands property contains a list of all commands to be proxied by rabbit. A site's 'hop' property represents the rabbit arguments and the commands 'to' property defines the actual command to be run in terminal. Simple as that!
+Rabbit will look for the closest rabbit.yaml file. This [yaml](http://docs.ansible.com/YAMLSyntax.html) file must contain a commands property. The commands property is a list of all commands to be proxied by rabbit. A command's 'hop' property represents the rabbit arguments and the command's 'to' property defines the actual command to be run in terminal. Simple as that!
 
 ```yaml
 commands:

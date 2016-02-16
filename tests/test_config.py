@@ -13,10 +13,6 @@ class TestConfig(unittest.TestCase):
 	# 		],
 	# 	})
 
-
-
-
-
 	# May require mocking the OS
 	def test_it_can_find_a_config_file(self):
 		config = Config()
