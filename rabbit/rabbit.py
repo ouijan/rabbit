@@ -5,7 +5,9 @@ from command import Command
 from config import Config
       
 def main():
-  """Main entrypoint to the application"""
+  """
+  Main entrypoint to the application
+  """
   try:
     
     # Get input arguments
@@ -29,7 +31,7 @@ def main():
     # Find the command
     command = config.findCommand(givenCommand)
     if command is None:
-      print "Couldn't fond that command"
+      print("Couldn't find that command")
       config.displayHelp()
       exit()
 

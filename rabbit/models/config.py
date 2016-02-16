@@ -68,7 +68,9 @@ class Config (object):
 		return found
 
 	def displayHelp (self):
-	  """translates config into help and prints it"""
+	  """
+	  translates config into help and prints it
+	  """
 	  print "\033[1m\033[4m\033[32mRabbit Command Line Hopper \033[0m"
 	  for command in self.commands:
 	    default = "runs '" + command.to + "'"
