@@ -1,18 +1,18 @@
 commands:
-  - hop: rebuild
-    to: python setup.py build && python setup.py install
-  - hop: hello world
-    to: echo hello world
-    description: echos 'hello world' to the command line
-  - hop: ping google
-    to: ping www.google.com
-    description: starts pinging www.google.com
-  - hop: node
-    to: docker run -it --rm node
-    description: opens an interactive node cli in a docker container
-  - hop: env simple
-    to: echo $PWD
-  - hop: env escaped
-    to: echo ${PWD}
-  - hop: env function
-    to: echo $(echo $PWD)
+  # - hop: rebuild
+  #   to: python setup.py build && python setup.py install
+  # - hop: hello world
+  #   to: echo hello world
+  #   description: echos 'hello world' to the command line
+  # - hop: ping google
+  #   to: ping www.google.com
+  #   description: starts pinging www.google.com
+  # - hop: node
+  #   to: docker run -it --rm node
+  #   description: opens an interactive node cli in a docker container
+  # - hop: env simple
+  #   to: echo $PWD
+  # - hop: env escaped
+  #   to: echo ${PWD}
+  # - hop: env function
+  #   to: echo $(echo $PWD)

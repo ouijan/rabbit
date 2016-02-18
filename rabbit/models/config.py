@@ -1,42 +1,40 @@
 #!.env/bin/python
-import os
 import yaml
-from command import Command
 
 class Config (object):
 	""" 
 	Config class for managing rabbit's configuration
 
 	Responsible for :
-	- finding config file based on current working directory
-	- loading a config file
-	- keeping a track of active rabbit.yaml files
-	- providing the available commands / configuration
+	- loading configs
+	- storing configs
 	"""
-	
 	fileName = "rabbit.yaml"
-	searchDepth = 3
 
 	def __init__ (self):
-		self.commands = []
-	
-	def find (self):
-		""" 
-		finds config file based on current working directory 
-		"""
-		fileFound = False
-		depth = 0
-		while (fileFound == False and depth < self.searchDepth):
-			search = './'
-			for index in range(depth):
-				search += '../'
-			search += self.fileName
-			if os.path.isfile(search):
-				fileFound = search
-			depth += 1
-		return fileFound
+		self.data = {}
 
-	def read (self, filepath):
+
+	def get(self, item, default = None):
+		"""
+		Get the value of a config item
+		"""
+		if self.data.get(item) is not None:
+			return self.data.get(item)
+		return default
+
+
+	def load(self, path):
+		"""
+		Load a file into the config from path
+		"""
+		fileData = self._read(path)
+		if fileData:
+			self._update(self.data, fileData);
+			return True
+		return False
+
+	def _read (self, filepath):
 		"""
 		Reads the given filepath and returns a dict
 		"""
@@ -47,32 +45,8 @@ class Config (object):
 		except:
 			return None
 
-	def load (self, configDict):
-		"""
-		Loads the given config dict into this config
-		"""
-		if configDict is None: return False
-		for command in configDict['commands']:
-			self.commands.append( Command(command) )
-		return None
+	def _update(self, origData, newData):
+		origData = newData
+		pass
 
-	def findCommand (self, givenCommand):
-		"""
-		Finds the first matching command in the commands list
-		"""
-		found = None
-		for command in self.commands:
-			if command.matches(givenCommand):
-				found = command
-				break;
-		return found
 
-	def displayHelp (self):
-	  """
-	  translates config into help and prints it
-	  """
-	  print "\033[1m\033[4m\033[32mRabbit Command Line Hopper \033[0m"
-	  for command in self.commands:
-	    default = "runs '" + command.to + "'"
-	    print "\033[1m\033[36m%-20s \033[0m %-10s" % (command.hop, command.description)
-		
