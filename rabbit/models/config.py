@@ -4,10 +4,9 @@ import io
 import copy
 
 class Config(object):
-	""" 
-	Config class for managing rabbit's configuration
+	"""Config class for managing rabbit's configuration
 
-	Responsible for :
+	Responsible for:
 	- loading configs
 	- storing configs
 	"""
@@ -17,8 +16,8 @@ class Config(object):
 
 
 	def get(self, key, default = None):
-		"""
-		Get the value of a config item
+		"""Get the value of a config item
+
 		- (string) key: the data key to access
 		- (mixed) default: value to return if not found
 		"""
@@ -29,8 +28,8 @@ class Config(object):
 
 
 	def load(self, filepath):
-		"""
-		Load a file into the config from filepath
+		"""Load a file into the config from filepath
+
 		- (string) filepath: the path to the file in the os
 		"""
 		fileData = self._read(filepath)
@@ -41,8 +40,8 @@ class Config(object):
 
 
 	def _read (self, filepath):
-		"""
-		Reads the given filepath and returns a dict
+		"""Reads the given filepath and returns a dict
+
 		- (string) filepath: the path to the file in the os
 		"""
 		try:
@@ -53,11 +52,10 @@ class Config(object):
 			return None
 
 	def _merge(self, oldData, newData):
-		"""
-		Recursively merges two data objects
-		handles: lists, dicts, non-iterables
-			not tested for tuples
-			will not affect either of the original objects
+		"""Recursively merges two data objects
+
+		Handles merging lists, dicts, and non-iterables. This has not been
+		tested for tuples. It will not affect either of the original objects.
 
 		- (mixed) oldData: the data to update
 		- (mixed) newData: the data to override with

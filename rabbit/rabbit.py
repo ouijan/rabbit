@@ -5,9 +5,7 @@ import click
 
 @click.command()
 def main():
-  """
-  Main entrypoint to the application
-  """
+  """Main entrypoint to the application"""
   app = App()
   click.echo('Hi There')
   
