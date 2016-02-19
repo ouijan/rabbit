@@ -1,6 +1,7 @@
 #!.env/bin/python
 import yaml
 import io
+import copy
 
 class Config (object):
 	""" 
@@ -47,7 +48,8 @@ class Config (object):
 		except:
 			return None
 
-	def _merge(self, origData, newData):
+	def _merge(self, oldData, newData):
+		origData = copy.copy(oldData)
 		try:
 
 			# Set the iterator or return newData

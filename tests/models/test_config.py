@@ -196,9 +196,10 @@ class TestConfig(unittest.TestCase):
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 	
-	# def test_it_doesnt_modify_the_original_object(self):
-	# 	old = [['test'],[['foo']]]
-	# 	new = [None, ['test', 'thing']]
-	# 	expected = [['test'], ['test', 'thing']]
-	# 	result = Config()._merge(old, new)
-	# 	self.assertEquals(result, expected)
+	def test_it_doesnt_modify_the_original_object(self):
+		old = {'foo': None}
+		new = {'foo': 'bar'}
+		expected = {'foo': 'bar'}
+		result = Config()._merge(old, new)
+		self.assertEquals(result, expected)
+		self.assertEquals(old, {'foo': None})
