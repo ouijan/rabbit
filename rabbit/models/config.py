@@ -31,7 +31,7 @@ class Config (object):
 		"""
 		fileData = self._read(path)
 		if fileData is not None:
-			self.data = self._update(self.data, fileData);
+			self.data = self._merge(self.data, fileData);
 			return True
 		return False
 
@@ -47,8 +47,23 @@ class Config (object):
 		except:
 			return None
 
-	def _update(self, origData, newData):
-		origData = newData
-		pass
+	def _merge(self, origData, newData):
+		try:
 
+			# Set the iterator or return newData
+			iterator = None
+			if isinstance(newData, list): iterator = enumerate(newData)
+			elif isinstance(newData, dict): iterator = newData.items()	
+			else: origData = newData
+
+			# Iterate through setting values
+			for key, val in iterator:
+				# If new value isnt None
+				if val is not None:
+					origData[key] = self._merge(origData[key], newData[key])
+
+			# return the modified Data
+			return origData
+		except:
+			return newData
 
