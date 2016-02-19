@@ -1,5 +1,5 @@
 #!.env/bin/python
-from rabbit.models.config import Config
+from .config import Config
 from os.path import expanduser
 
 CONFIG_FILE = "rabbit.yaml"

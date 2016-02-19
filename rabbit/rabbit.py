@@ -1,5 +1,5 @@
 #!.env/bin/python
-from models.app import App
+from models.app import *
 import click
 
 

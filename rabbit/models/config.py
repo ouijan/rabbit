@@ -1,5 +1,6 @@
 #!.env/bin/python
 import yaml
+import io
 
 class Config (object):
 	""" 
@@ -14,13 +15,14 @@ class Config (object):
 		self.data = {}
 
 
-	def get(self, item, default = None):
+	def get(self, key, default = None):
 		"""
 		Get the value of a config item
 		"""
-		if self.data.get(item) is not None:
-			return self.data.get(item)
-		return default
+		try:
+			return self.data[key]
+		except:
+			return default
 
 
 	def load(self, path):
@@ -28,18 +30,19 @@ class Config (object):
 		Load a file into the config from path
 		"""
 		fileData = self._read(path)
-		if fileData:
-			self._update(self.data, fileData);
+		if fileData is not None:
+			self.data = self._update(self.data, fileData);
 			return True
 		return False
+
 
 	def _read (self, filepath):
 		"""
 		Reads the given filepath and returns a dict
 		"""
 		try:
-			stream = file(filepath, 'r')
-			value = yaml.load(stream)
+			stream = io.open(filepath, 'r')
+			value = yaml.safe_load(stream)
 			return value
 		except:
 			return None
