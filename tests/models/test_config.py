@@ -1,13 +1,7 @@
 import unittest
 import mock
-from sys import version_info
+import yaml
 from rabbit.models.config import *
-
-# Get Python Version
-if version_info[0] == 2:
-	import __builtin__ as builtins
-else:
-	import builtins
 
 
 class TestConfig(unittest.TestCase):
@@ -79,13 +73,33 @@ class TestConfig(unittest.TestCase):
 
 	"""
 	Test Config._read
-	- returns a dict
-	- handles exception and returns none
-	- handles file raise IOError
-	- handles yaml.read error
+	- returns None on IOError
+	- returns None on YAMLError
+	- returns a value of yaml.safe_load on success
 	"""
-	# @mock.patch('io.open')
+	@mock.patch('io.open')
 	# @mock.patch('yaml.safe_load')
-	# def test_it_returns_the_output_of_yaml_load(self, yaml_load, file_mock):
-	# 	print(file_mock)
+	def test_it_returns_None_on_IOError_exception(self, io_open):
+		io_open.side_effect = IOError('File Not Found')
+		config = Config()
+		result = config._read('test')
+		self.assertEquals(result, None)
+
+	@mock.patch('io.open')
+	@mock.patch('yaml.safe_load')
+	def test_it_returns_None_on_YAMLError_exception(self, safe_load, io_open):
+		io_open.return_value = "{'foo': 'bar'}"
+		safe_load.side_effect = yaml.YAMLError()
+		config = Config()
+		result = config._read('test')
+		self.assertEquals(result, None)
+
+	@mock.patch('io.open')
+	@mock.patch('yaml.safe_load')
+	def test_it_returns_None_on_YAMLError_exception(self, safe_load, io_open):
+		io_open.return_value = "{'foo': 'bar'}"
+		safe_load.return_value = {'foo': 'bar'}
+		config = Config()
+		result = config._read('test')
+		self.assertEquals(result, {'foo': 'bar'})
 
