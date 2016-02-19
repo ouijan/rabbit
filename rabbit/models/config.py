@@ -9,7 +9,6 @@ class Config (object):
 	- loading configs
 	- storing configs
 	"""
-	fileName = "rabbit.yaml"
 
 	def __init__ (self):
 		self.data = {}

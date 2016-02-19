@@ -16,7 +16,6 @@ class App(object):
 		"""
 		self.config = Config()
 		self.bootstrap()
-		print(self.config.get('commands'))
 
 	def bootstrap(self):
 		"""
