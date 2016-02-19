@@ -58,9 +58,18 @@ class Config (object):
 
 			# Iterate through setting values
 			for key, val in iterator:
+				
+				# Get old value
+				oldVal = None
+				try: oldVal = origData[key]
+				except: pass
+
 				# If new value isnt None
 				if val is not None:
 					origData[key] = self._merge(origData[key], newData[key])
+				# If it is none
+				elif oldVal is None:
+					origData[key] = None
 
 			# return the modified Data
 			return origData

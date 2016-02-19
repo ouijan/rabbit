@@ -182,19 +182,19 @@ class TestConfig(unittest.TestCase):
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 
-	# def test_it_sets_None_if_not_previously_set_on_dicts(self):
-	# 	old = {'foo': 'bar'}
-	# 	new = {'test': None}
-	# 	expected = {'test': None, 'foo': 'bar'}
-	# 	result = Config()._merge(old, new)
-	# 	self.assertEquals(result, expected)
+	def test_it_sets_None_if_not_previously_set_on_dicts(self):
+		old = {'foo': 'bar'}
+		new = {'test': None}
+		expected = {'test': None, 'foo': 'bar'}
+		result = Config()._merge(old, new)
+		self.assertEquals(result, expected)
 	
-	# def test_it_sets_None_if_not_previously_set_on_lists(self):
-	# 	old = [None, 'bar']
-	# 	new = ['foo', None]
-	# 	expected = ['foo', 'bar']
-	# 	result = Config()._merge(old, new)
-	# 	self.assertEquals(result, expected)
+	def test_it_sets_None_if_not_previously_set_on_lists(self):
+		old = [None, 'bar']
+		new = ['foo', None]
+		expected = ['foo', 'bar']
+		result = Config()._merge(old, new)
+		self.assertEquals(result, expected)
 	
 	# def test_it_doesnt_modify_the_original_object(self):
 	# 	old = [['test'],[['foo']]]
