@@ -106,14 +106,16 @@ class TestConfig(unittest.TestCase):
 	- it updates to new value
 	- it merges old and new
 	- it works for nested dicts
-	- it works for lists override
+	- OUTDATED: it works for lists override
 	- it works for lists append
 	- it works for nested lists
 	- it works for lists in dicts
 	- it works for dicts in lists
-	! - it doesn't modify the original object
-	! - it sets None if not previously set on lists
-	! - it sets None if not previously set on dicts
+	- it doesn't modify the original object
+	- OUTDATED: it sets None if not previously set on lists
+	- it sets None if not previously set on dicts
+	- it merges lists by concatinating them
+	! - it should treat both like dicts when merging a dict and an array
 	"""
 	def test_it_doesnt_update_a_value_with_none(self):
 		old = {'foo': 'bar'}
@@ -147,38 +149,39 @@ class TestConfig(unittest.TestCase):
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 
-	def test_it_works_for_lists_override(self):
-		old = ['test', 'foo', 'bar']
-		new = ['test', 'override']
-		expected = ['test', 'override', 'bar']
-		result = Config()._merge(old, new)
-		self.assertEquals(result, expected)
+	# OUTDATED: Should now merge two lists
+	# def test_it_works_for_lists_override(self):
+	# 	old = ['test', 'foo', 'bar']
+	# 	new = ['test', 'override']
+	# 	expected = ['test', 'override', 'bar']
+	# 	result = Config()._merge(old, new)
+	# 	self.assertEquals(result, expected)
 
 	def test_it_works_for_lists_append(self):
 		old = ['test']
 		new = ['test', 'foo']
-		expected = ['test', 'foo']
+		expected = ['test', 'test', 'foo']
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 
 	def test_it_works_for_nested_lists(self):
-		old = [['test'],[['foo']]]
+		old = [['test'], [['foo']]]
 		new = [['test'], ['test', 'thing']]
-		expected = [['test'], ['test', 'thing']]
+		expected = [['test'], [['foo']], ['test'], ['test', 'thing']]
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 
 	def test_it_works_for_lists_in_dicts(self):
-		old = {'test': ['foo']}
-		new = {'test': ['foo', 'bar']}
-		expected = {'test': ['foo', 'bar']}
+		old = {'test': ['bar']}
+		new = {'test': ['bar', 'foo']}
+		expected = {'test': ['bar', 'bar', 'foo']}
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 
 	def test_it_works_for_dicts_in_lists(self):
 		old = [{'test': 'thing'}, 'mix']
 		new = [{'test': 'bar'}]
-		expected = [{'test': 'bar'}, 'mix']
+		expected = [{'test': 'thing'}, 'mix', {'test': 'bar'}]
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 
@@ -189,12 +192,13 @@ class TestConfig(unittest.TestCase):
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 	
-	def test_it_sets_None_if_not_previously_set_on_lists(self):
-		old = [None, 'bar']
-		new = ['foo', None]
-		expected = ['foo', 'bar']
-		result = Config()._merge(old, new)
-		self.assertEquals(result, expected)
+	# OUTDATED: should now merge two lists
+	# def test_it_sets_None_if_not_previously_set_on_lists(self):
+	# 	old = [None, 'bar']
+	# 	new = ['foo', None]
+	# 	expected = ['foo', None, 'bar', None]
+	# 	result = Config()._merge(old, new)
+	# 	self.assertEquals(result, expected)
 	
 	def test_it_doesnt_modify_the_original_object(self):
 		old = {'foo': None}
@@ -203,3 +207,10 @@ class TestConfig(unittest.TestCase):
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 		self.assertEquals(old, {'foo': None})
+
+	def test_it_should_merge_lists_concat(self):
+		old = ['foo']
+		new = ['bar']
+		expected = ['foo', 'bar']
+		result = Config()._merge(old, new)
+		self.assertEquals(result, expected)

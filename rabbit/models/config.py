@@ -63,6 +63,10 @@ class Config(object):
 		origData = copy.copy(oldData)
 		try:
 
+			# if they are both lists just concat them
+			if isinstance(origData, list) and isinstance(newData, list):
+				return origData + newData
+
 			# Set the iterator or return newData
 			iterator = None
 			if isinstance(newData, list): iterator = enumerate(newData)
