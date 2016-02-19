@@ -11,9 +11,6 @@ class App(object):
 	"""
 
 	def __init__ (self):
-		"""
-		Constructor/Init function
-		"""
 		self.config = Config()
 		self.bootstrap()
 
