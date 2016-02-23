@@ -1,5 +1,5 @@
-from .Config import Config
-from .CommandCollection import *
+from .config import Config
+from .commands import CommandCollection
 from os.path import expanduser
 
 CONFIG_FILE = "rabbit.yaml"

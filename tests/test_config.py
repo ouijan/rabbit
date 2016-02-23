@@ -1,7 +1,7 @@
 import unittest
-import mock
+from mock import *
 import yaml
-from rabbit.models.Config import *
+from rabbit.config import *
 
 
 class TestConfig(unittest.TestCase):
@@ -45,21 +45,21 @@ class TestConfig(unittest.TestCase):
 	- returns True on success
 	- correctly sets config.data
 	"""
-	@mock.patch('rabbit.models.Config.Config._read')
+	@patch('rabbit.config.Config._read')
 	def test_returns_False_if_self_read_returns_None(self, read_mock):
 		read_mock.return_value = None
 		result = Config().load('test')
 		read_mock.assert_called_with('test')
 		self.assertFalse(result)
 
-	@mock.patch('rabbit.models.Config.Config._read')
+	@patch('rabbit.config.Config._read')
 	def test_returns_true_on_success(self, read_mock):
 		read_mock.return_value = {'foo': 'bar'}
 		result = Config().load('test')
 		self.assertTrue(result)
 
-	@mock.patch('rabbit.models.Config.Config._read')
-	@mock.patch('rabbit.models.Config.Config._merge')
+	@patch('rabbit.config.Config._read')
+	@patch('rabbit.config.Config._merge')
 	def test_correctly_sets_config_data(self, merge_mock, read_mock):
 		fileData = {'foo': 'bar'}
 		read_mock.return_value = fileData
@@ -75,23 +75,22 @@ class TestConfig(unittest.TestCase):
 	- returns None on YAMLError
 	- returns a value of yaml.safe_load on success
 	"""
-	@mock.patch('io.open')
-	# @mock.patch('yaml.safe_load')
+	@patch('io.open')
 	def test_it_returns_None_on_IOError_exception(self, io_open):
 		io_open.side_effect = IOError('File Not Found')
 		result = Config()._read('test')
 		self.assertEquals(result, None)
 
-	@mock.patch('io.open')
-	@mock.patch('yaml.safe_load')
+	@patch('io.open')
+	@patch('yaml.safe_load')
 	def test_it_returns_None_on_YAMLError_exception(self, safe_load, io_open):
 		io_open.return_value = "{'foo': 'bar'}"
 		safe_load.side_effect = yaml.YAMLError()
 		result = Config()._read('test')
 		self.assertEquals(result, None)
 
-	@mock.patch('io.open')
-	@mock.patch('yaml.safe_load')
+	@patch('io.open')
+	@patch('yaml.safe_load')
 	def test_it_returns_None_on_YAMLError_exception(self, safe_load, io_open):
 		io_open.return_value = "{'foo': 'bar'}"
 		safe_load.return_value = {'foo': 'bar'}
@@ -106,13 +105,9 @@ class TestConfig(unittest.TestCase):
 	- it updates to new value
 	- it merges old and new
 	- it works for nested dicts
-	# - OUTDATED: it works for lists override
 	- it works for lists append
-	# - it works for nested lists
 	- it works for lists in dicts
-	# - it works for dicts in lists
 	- it doesn't modify the original object
-	# - OUTDATED: it sets None if not previously set on lists
 	- it sets None if not previously set on dicts
 	- it merges lists by concatinating them
 	"""
@@ -147,14 +142,6 @@ class TestConfig(unittest.TestCase):
 		expected = {'foo': {'bar': True}, 'test': {'zap': True}}
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
-
-	# OUTDATED: Should now merge two lists
-	# def test_it_works_for_lists_override(self):
-	# 	old = ['test', 'foo', 'bar']
-	# 	new = ['test', 'override']
-	# 	expected = ['test', 'override', 'bar']
-	# 	result = Config()._merge(old, new)
-	# 	self.assertEquals(result, expected)
 
 	def test_it_works_for_lists_append(self):
 		old = ['test']
@@ -191,14 +178,6 @@ class TestConfig(unittest.TestCase):
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 	
-	# OUTDATED: should now merge two lists
-	# def test_it_sets_None_if_not_previously_set_on_lists(self):
-	# 	old = [None, 'bar']
-	# 	new = ['foo', None]
-	# 	expected = ['foo', None, 'bar', None]
-	# 	result = Config()._merge(old, new)
-	# 	self.assertEquals(result, expected)
-	
 	def test_it_doesnt_modify_the_original_object(self):
 		old = {'foo': None}
 		new = {'foo': 'bar'}
@@ -214,16 +193,3 @@ class TestConfig(unittest.TestCase):
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
 
-	# def test_it_should_treat_both_as_dict_when_mixed_old_dict(self):
-	# 	old = {'foo': 'bar'}
-	# 	new = ['test']
-	# 	expected = {0: 'test', 'foo': 'bar'}
-	# 	result = Config()._merge(old, new)
-	# 	self.assertEquals(result, expected)
-
-	# def test_it_should_treat_both_as_dict_when_mixed_old_list(self):
-	# 	old = {'foo': 'bar'}
-	# 	new = ['test']
-	# 	expected = {0: 'test', 'foo': 'bar'}
-	# 	result = Config()._merge(old, new)
-	# 	self.assertEquals(result, expected)
