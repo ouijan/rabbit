@@ -34,9 +34,10 @@ class Command(object):
 			return False
 		return True
 
-	def register(self):
-		""" Registers the command in click """
-		pass
+	# Needs Implementation
+	def run(self):
+		""" Runs the given command """
+		print("Calling: %s" % self.data.get('hop'))
 
 
 class CommandCollection(object):
@@ -83,9 +84,5 @@ class CommandCollection(object):
 				return command
 		return None
 
-	def registerAll(self):
-		""" runs the register method of all commands """
-		for command in self._data:
-			command.register()
 
 		

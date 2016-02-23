@@ -192,20 +192,6 @@ class TestCommandCollection(unittest.TestCase):
 		self.assertEquals(result, commandB)
 
 	"""
-	registerAll - test it can register every command in the collection
-	"""
-	def test_it_will_run_register_on_every_command(self):
-		commandA = Mock(spec=Command)
-		commandB = Mock(spec=Command)
-		commandC = Mock(spec=Command)
-		collection = CommandCollection()
-		collection._data = [commandA, commandB, commandC]
-		collection.registerAll()
-		commandA.register.assert_called_with()
-		commandB.register.assert_called_with()
-		commandC.register.assert_called_with()
-
-	"""
 	is Iterable - test it can be iterated through
 	"""
 	def test_it_can_be_iterated_through(self):
