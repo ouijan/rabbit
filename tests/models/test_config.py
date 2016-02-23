@@ -101,21 +101,20 @@ class TestConfig(unittest.TestCase):
 
 	"""
 	Test Config._merge
-	- it doesnt update a value with None  
+	- it doesnt update a value with None
 	- it works recursively
 	- it updates to new value
 	- it merges old and new
 	- it works for nested dicts
-	- OUTDATED: it works for lists override
+	# - OUTDATED: it works for lists override
 	- it works for lists append
-	- it works for nested lists
+	# - it works for nested lists
 	- it works for lists in dicts
-	- it works for dicts in lists
+	# - it works for dicts in lists
 	- it doesn't modify the original object
-	- OUTDATED: it sets None if not previously set on lists
+	# - OUTDATED: it sets None if not previously set on lists
 	- it sets None if not previously set on dicts
 	- it merges lists by concatinating them
-	! - it should treat both like dicts when merging a dict and an array
 	"""
 	def test_it_doesnt_update_a_value_with_none(self):
 		old = {'foo': 'bar'}
@@ -214,3 +213,17 @@ class TestConfig(unittest.TestCase):
 		expected = ['foo', 'bar']
 		result = Config()._merge(old, new)
 		self.assertEquals(result, expected)
+
+	# def test_it_should_treat_both_as_dict_when_mixed_old_dict(self):
+	# 	old = {'foo': 'bar'}
+	# 	new = ['test']
+	# 	expected = {0: 'test', 'foo': 'bar'}
+	# 	result = Config()._merge(old, new)
+	# 	self.assertEquals(result, expected)
+
+	# def test_it_should_treat_both_as_dict_when_mixed_old_list(self):
+	# 	old = {'foo': 'bar'}
+	# 	new = ['test']
+	# 	expected = {0: 'test', 'foo': 'bar'}
+	# 	result = Config()._merge(old, new)
+	# 	self.assertEquals(result, expected)

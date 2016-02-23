@@ -1,4 +1,3 @@
-#!.env/bin/python
 from .config import Config
 from os.path import expanduser
 

@@ -1,4 +1,3 @@
-#!.env/bin/python
 import yaml
 import io
 import copy
@@ -84,7 +83,8 @@ class Config(object):
 				# If new value isnt None
 				if val is not None:
 					origData[key] = self._merge(origData[key], newData[key])
-				# If it is none
+					
+				# If it is none and old value not found, set the key
 				elif oldVal is None:
 					origData[key] = None
 
