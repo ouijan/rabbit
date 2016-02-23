@@ -1,7 +1,7 @@
 import unittest
 import mock
 import yaml
-from rabbit.models.config import *
+from rabbit.models.Config import *
 
 
 class TestConfig(unittest.TestCase):
@@ -45,21 +45,21 @@ class TestConfig(unittest.TestCase):
 	- returns True on success
 	- correctly sets config.data
 	"""
-	@mock.patch('rabbit.models.config.Config._read')
+	@mock.patch('rabbit.models.Config.Config._read')
 	def test_returns_False_if_self_read_returns_None(self, read_mock):
 		read_mock.return_value = None
 		result = Config().load('test')
 		read_mock.assert_called_with('test')
 		self.assertFalse(result)
 
-	@mock.patch('rabbit.models.config.Config._read')
+	@mock.patch('rabbit.models.Config.Config._read')
 	def test_returns_true_on_success(self, read_mock):
 		read_mock.return_value = {'foo': 'bar'}
 		result = Config().load('test')
 		self.assertTrue(result)
 
-	@mock.patch('rabbit.models.config.Config._read')
-	@mock.patch('rabbit.models.config.Config._merge')
+	@mock.patch('rabbit.models.Config.Config._read')
+	@mock.patch('rabbit.models.Config.Config._merge')
 	def test_correctly_sets_config_data(self, merge_mock, read_mock):
 		fileData = {'foo': 'bar'}
 		read_mock.return_value = fileData

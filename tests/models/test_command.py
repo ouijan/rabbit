@@ -1,6 +1,6 @@
 import unittest
 import mock
-from rabbit.models.command import *
+from rabbit.models.Command import *
 
 class TestCommand(unittest.TestCase):
 
@@ -52,7 +52,7 @@ class TestCommand(unittest.TestCase):
 		command = Command(data)
 		self.assertEquals(command.data['description'], 'test')
 
-	@mock.patch('rabbit.models.command.Command.generateDescription')
+	@mock.patch('rabbit.models.Command.Command.generateDescription')
 	def test_it_sets_missing_description_data_on_init(self, gen_desc):
 		data = {'to': 'foo', 'hop': 'bar'}
 		gen_desc.return_value = 'test'
@@ -60,7 +60,7 @@ class TestCommand(unittest.TestCase):
 		gen_desc.assert_called_with()
 		self.assertEquals(command.data['description'], 'test')
 
-	@mock.patch('rabbit.models.command.Command.generateDescription')
+	@mock.patch('rabbit.models.Command.Command.generateDescription')
 	def test_it_handles_empty_description_data_on_init(self, gen_desc):
 		data = {'to': 'foo', 'hop': 'bar', 'description': None}
 		gen_desc.return_value = 'test'

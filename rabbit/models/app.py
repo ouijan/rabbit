@@ -1,4 +1,5 @@
-from .config import Config
+from .Config import Config
+from .CommandCollection import *
 from os.path import expanduser
 
 CONFIG_FILE = "rabbit.yaml"
@@ -15,7 +16,9 @@ class App(object):
 	
 	def __init__ (self):
 		self.config = Config()
+		self.commands = CommandCollection()
 		self.bootstrap()
+
 
 	def bootstrap(self):
 		"""Bootstrap the application"""
