@@ -1,6 +1,9 @@
-from .config import Config
-from .commands import CommandCollection, Command
+import click
 from os.path import expanduser
+from config import Config
+from command import Command
+from group import Group
+
 
 CONFIG_FILE = "rabbit.yaml"
 
@@ -16,9 +19,8 @@ class App(object):
 	
 	def __init__ (self):
 		self.config = Config()
-		self.commands = CommandCollection()
+		self.baseGroup = Group('base')
 		self.bootstrap()
-
 
 	def bootstrap (self):
 		""" Bootstrap the application """
@@ -42,13 +44,12 @@ class App(object):
 	 	if commands is None:
 	 		return
 	 	for commandData in commands:
-	 		command = self._createCommand(commandData)
-	 		self.commands.add(command)
-	 	return
+	 		command = Command(commandData)
+	 		commandGroups = command.getGroups()
+			childGroup = self.baseGroup.resolveGroups(commandGroups)
+			childGroup.add(command)
+	
+	def run(self):		
+		self.baseGroup.fire()
 
-	def _createCommand (self, commandData):
-		""" Creates Command Object from the given data """
-		return Command(commandData)
 
-
-		

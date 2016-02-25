@@ -100,6 +100,14 @@ class TestCommand(unittest.TestCase):
 		command = Command(data)
 		self.assertFalse(command.isValid())
 
+	"""
+	getComponents
+	- it can get the arguments for a command
+	- it can get the options for a command
+	- it can get the group for a command
+	"""
+
+
 
 class TestCommandCollection(unittest.TestCase):
 	""" Test suite for the CommandCollection class"""

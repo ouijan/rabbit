@@ -1,16 +1,16 @@
-#!.env/bin/python
-from .app import App
 import click
+import display
+from app import *
 
 
-@click.command()
+
 def main():
   """Main entrypoint to the application"""
   app = App()
-  print(app.config.get('commands', 'Fuck it'))
-  click.echo('Hi There')
-  
+  # display.welcome()
+  app.run()
 
+  
 # Handle running the script directly
 if __name__ == '__main__':
   main()

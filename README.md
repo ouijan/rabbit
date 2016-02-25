@@ -20,25 +20,28 @@ commands:
 ```
 
 ## To Do
-- Display Class: handle printing to console
-  - colours etc
 - Command variables in command['hop'] > command['to']
 - Interpret multi line command 'to' arguments like a bash script
+- Parse through all additional arguments to proxied command
+- Parse through all options to proxied command
+- Adding command/group descriptions
 - Improve test framework
-  - add py34 to tox testing
-  - write tests for:
-    - Command
-    - Config
-- Grouping of commands in "family" for help.
-  - Namespaced with .
-  - Recognise commands in a family and auto generate help for them
+  - Group
+  - Command
 
 
 ### Testing
 Run the following command from project root directory to execute the test suite
+This is best done from within your virtualenv
+  $ tox
 
-	$ python -m unittest discover tests -v
+### Install
+Run the following command from project root directory to execute the install script
+This is best done from within your virtualenv
+  $  python setup.py build && python setup.py install
 
 ### Required Packages
-- [PyYaml](http://pyyaml.org/)
+- [Click](http://pyyaml.org/)
+- [PyYaml](http://click.pocoo.org/)
+
 
