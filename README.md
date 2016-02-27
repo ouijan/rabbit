@@ -22,9 +22,8 @@ commands:
 ## To Do
 - Command variables in command['hop'] > command['to']
 - Interpret multi line command 'to' arguments like a bash script
-- Parse through all additional arguments to proxied command
 - Parse through all options to proxied command
-- Adding command/group descriptions
+- Adding group descriptions
 - Improve test framework
   - Group
   - Command

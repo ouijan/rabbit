@@ -4,7 +4,6 @@ from config import Config
 from command import Command
 from group import Group
 
-
 CONFIG_FILE = "rabbit.yaml"
 
 class App(object):

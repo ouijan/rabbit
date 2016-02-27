@@ -20,6 +20,7 @@ class Command(object):
 			self.data['description'] = self.generateDescription()
 		self.name = self.getName()
 		self.groups = self.getGroups()
+		self.clickObject = self.setClickObject()
 
 	def generateDescription(self):
 		""" Generates a basic description based on the commands properties """
@@ -50,12 +51,29 @@ class Command(object):
 		segmented = hop.split(' ')
 		return segmented[-1]
 
+	def setClickObject(self):
+		context = {
+			'allow_extra_args': True,
+			'allow_interspersed_args': True,
+		}
+		callback = click.pass_context(self.run)
+		commandObj = click.command(
+			name = self.getName(), 
+			help = self.data.get('description'), 
+			context_settings = context
+		)(callback)
+		
+		return commandObj
+
 	def getClickObject(self):
-		name = self.getName()
-		return click.command(name=name)(self.run)
+		return self.clickObject
+
 
 	# Needs Implementation & Tests
-	def run(self):
+	def run(self, context):
 		""" Runs the given command """
+		print(self.clickObject.params)
 		toCommand = self.data.get('to')
-		subprocess.call(toCommand, shell=True);
+		extraArgs = ' '.join(context.args)
+		runCommand = '{0} {1}'.format(toCommand, extraArgs)
+		subprocess.call(runCommand, shell=True);
