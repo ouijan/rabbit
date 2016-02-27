@@ -24,10 +24,28 @@ commands:
 - Interpret multi line command 'to' arguments like a bash script
 - Parse through all options to proxied command
 - Adding group descriptions
-- Improve test framework
-  - Group
+- Testing:
+  - App
+    - __init__ (baseGroup)
+    - loadCommands
+  - Cli
+    - main
   - Command
-
+    - __init__ (groups, name, clickObj)
+    - getGroups
+    - getName
+    - setClickObject
+    - getClickObject
+    - run
+  - Display
+    - welcome
+  - Group
+    - __init__ (children, name, clickObj)
+    - getClickObject
+    - fire
+    - add
+    - resolveGroup
+    - resolveGroups
 
 ### Testing
 Run the following command from project root directory to execute the test suite

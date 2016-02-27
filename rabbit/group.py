@@ -1,5 +1,5 @@
 import click
-from command import Command
+from rabbit.command import Command
 
 # Needs Tests
 class Group(object):

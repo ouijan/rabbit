@@ -1,8 +1,8 @@
 import click
 from os.path import expanduser
-from config import Config
-from command import Command
-from group import Group
+from rabbit.config import Config
+from rabbit.command import Command
+from rabbit.group import Group
 
 CONFIG_FILE = "rabbit.yaml"
 
@@ -28,23 +28,23 @@ class App(object):
 		self.loadCommands()
 
 	def loadHomeConfig (self):
-	  """ Load Config From Home Directory """
-	  homepath = expanduser('~') + '/' + CONFIG_FILE
-	  self.config.load(homepath)
+		""" Load Config From Home Directory """
+		homepath = expanduser('~') + '/' + CONFIG_FILE
+		self.config.load(homepath)
 
 	def loadLocalConfig (self):
-	  """ Load Config From Local (Current) Directory """
-	  localpath = './' + CONFIG_FILE
-	  self.config.load(localpath)
+		""" Load Config From Local (Current) Directory """
+		localpath = './' + CONFIG_FILE
+		self.config.load(localpath)
 
 	def loadCommands (self):
-	 	""" Load Commands from the current configs """
-	 	commands = self.config.get('commands')
-	 	if commands is None:
-	 		return
-	 	for commandData in commands:
-	 		command = Command(commandData)
-	 		commandGroups = command.getGroups()
+		""" Load Commands from the current configs """
+		commands = self.config.get('commands')
+		if commands is None:
+			return
+		for commandData in commands:
+			command = Command(commandData)
+			commandGroups = command.getGroups()
 			childGroup = self.baseGroup.resolveGroups(commandGroups)
 			childGroup.add(command)
 	
