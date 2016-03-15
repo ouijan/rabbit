@@ -47,10 +47,11 @@ class Command(object):
 	def getName(self):
 		hop = self.data.get('hop')
 		if hop is None:
-			return []
+			return None
 		segmented = hop.split(' ')
 		return segmented[-1]
 
+	# Needs Tests
 	def setClickObject(self):
 		context = {
 			'allow_extra_args': True,
@@ -69,7 +70,7 @@ class Command(object):
 		return self.clickObject
 
 
-	# Needs Implementation & Tests
+	# Needs Tests
 	def run(self, context):
 		""" Runs the given command """
 		print(self.clickObject.params)

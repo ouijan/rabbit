@@ -41,12 +41,22 @@ class App(object):
 		""" Load Commands from the current configs """
 		commands = self.config.get('commands')
 		if commands is None:
-			return
+			return False
 		for commandData in commands:
-			command = Command(commandData)
-			commandGroups = command.getGroups()
-			childGroup = self.baseGroup.resolveGroups(commandGroups)
-			childGroup.add(command)
+			command = self.createCommand(commandData)
+			self.addCommand(command)
+		return True
+
+	def addCommand(self, command):
+		if not isinstance(command, (Command)):
+			return False
+		commandGroups = command.getGroups()
+		childGroup = self.baseGroup.resolveGroups(commandGroups)
+		childGroup.add(command)
+		return True
+
+	def createCommand(self, commandData):
+		return Command(commandData)
 	
 	def run(self):		
 		self.baseGroup.fire()

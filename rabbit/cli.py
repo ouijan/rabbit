@@ -7,7 +7,6 @@ from app import *
 def main():
   """Main entrypoint to the application"""
   app = App()
-  # display.welcome()
   app.run()
 
   

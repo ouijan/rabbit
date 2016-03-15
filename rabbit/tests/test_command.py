@@ -70,6 +70,36 @@ class TestCommand(unittest.TestCase):
 		self.assertEquals(command.data['description'], 'test')
 
 	"""
+	Sets name on init
+	"""
+	@patch('rabbit.command.Command.getName')
+	def test_it_sets_name_on_init(self, get_name):
+		data = {'to': 'foo', 'hop': 'bar'}
+		get_name.return_value = 'test'
+		command = Command(data)
+		self.assertEquals(command.name, 'test')
+
+	"""
+	Sets groups on init
+	"""
+	@patch('rabbit.command.Command.getGroups')
+	def test_it_sets_name_on_init(self, get_groups):
+		data = {'to': 'foo', 'hop': 'bar'}
+		get_groups.return_value = 'test'
+		command = Command(data)
+		self.assertEquals(command.groups, 'test')
+
+	"""
+	Sets clickObj on init
+	"""
+	@patch('rabbit.command.Command.setClickObject')
+	def test_it_sets_name_on_init(self, set_clickObj):
+		data = {'to': 'foo', 'hop': 'bar'}
+		set_clickObj.return_value = 'test'
+		command = Command(data)
+		self.assertEquals(command.clickObject, 'test')
+
+	"""
 	generateDescription - can generate a description
 	"""
 	def test_it_can_generate_a_description(self):
@@ -101,8 +131,46 @@ class TestCommand(unittest.TestCase):
 		self.assertFalse(command.isValid())
 
 	"""
-	getComponents
-	- it can get the arguments for a command
-	- it can get the options for a command
-	- it can get the group for a command
+	getGroups
+	- it returns empty an array when groups not set
+	- it returns the correct group array
 	"""
+	def test_it_returns_empty_an_array_when_groups_not_set(self):
+		data = {'to': 'foo', 'hop': None}
+		command = Command(data)
+		result = command.getGroups()
+		self.assertEquals(result, [])
+
+	def test_it_returns_the_correct_group_array(self):
+		data = {'to': 'foo', 'hop': 'test hopping groups'}
+		command = Command(data)
+		result = command.getGroups()
+		self.assertEquals(result, ['test', 'hopping'])
+
+	"""
+	getName
+	- it returns None with no name set
+	- it returns the correct name
+	"""
+	def test_it_returns_None_with_no_name_set(self):
+		data = {'to': 'foo', 'hop': None}
+		command = Command(data)
+		result = command.getName()
+		self.assertEquals(result, None)
+
+	def test_it_returns_the_correct_name(self):
+		data = {'to': 'foo', 'hop': 'test hopping groups'}
+		command = Command(data)
+		result = command.getName()
+		self.assertEquals(result, 'groups')
+
+	"""
+	getClickObject
+	- it returns the value of self.clickObject
+	"""	
+	def test_it_returns_the_value_of_self_clickObject(self):
+		data = {'to': 'foo', 'hop': 'bar'}
+		command = Command(data)
+		command.clickObject = 'test'
+		result = command.getClickObject()
+		self.assertEquals(result, 'test')

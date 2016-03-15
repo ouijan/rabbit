@@ -3,6 +3,7 @@ from mock import *
 from rabbit.app import *
 from rabbit.config import Config
 from rabbit.command import Command
+from rabbit.group import Group
 
 class TestApp(unittest.TestCase):
 
@@ -19,6 +20,10 @@ class TestApp(unittest.TestCase):
 	def test_it_sets_config_property(self):
 		app = App()
 		self.assertTrue(isinstance(app.config, (Config)))
+
+	def test_it_sets_baseGroup_property(self):
+		app = App()
+		self.assertTrue(isinstance(app.baseGroup, (Group)))
 
 	@patch('rabbit.app.App.bootstrap')
 	def test_it_runs_bootstrap_on_init(self, bootstrap):
@@ -74,24 +79,51 @@ class TestApp(unittest.TestCase):
 
 	"""
 	loadCommands Tests
-	- it adds commands from settings to collection
+	- It doesnt call addCommand when no commands are present
+	- It creates a new command with given data
+	- It calls addCommand for each command
 	"""
 	@patch('rabbit.config.Config.get')
-	def test_it_adds_nothing_if_commands_is_None(self, config_get):
+	def test_it_doesnt_call_addCommand_when_no_commands_are_present(self, config_get):
 		app = App()
 		config_get.return_value = None
-		app.loadCommands()
-		config_get.assert_called_with('commands')
-		
+		result = app.loadCommands()
+		self.assertFalse(result)
 
 	@patch('rabbit.config.Config.get')
-	def test_it_adds_commands_from_settings_to_collection (self, config_get):
+	@patch('rabbit.app.App.createCommand')
+	def test_it_creates_a_new_command_with_given_data(self, create_command, config_get):
 		app = App()
-		app.loadCommands()
-		
-		
-		
+		config_get.return_value = [1]
+		result = app.loadCommands()
+		create_command.assert_called_with(1)
+		self.assertTrue(result)
 
-	
+	@patch('rabbit.config.Config.get')
+	@patch('rabbit.app.App.createCommand')
+	@patch('rabbit.app.App.addCommand')
+	def test_it_calls_addCommand_for_each_command(self, add_command, create_command, config_get):
+		app = App()
+		config_get.return_value = [1]
+		create_command.return_value = 'test';
+		result = app.loadCommands()
+		add_command.assert_called_with('test')
+		self.assertTrue(result)
 
+	"""
+	addCommand Tests
+	- It validates command object falsy
+	- It finds the correct child group
+	- It adds the command to the given child group
+	"""
+	def test_it_validates_command_object_falsy(self):
+		app = App()
+		command = object
+		result = app.addCommand(command)
+		self.assertFalse(result)
 
+	def test_it_finds_the_correct_child_group(self):
+		app = App()
+		command = Command()
+		result = app.addCommand(command)
+		self.assertTrue(result)
