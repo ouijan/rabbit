@@ -59,8 +59,8 @@ class Command(object):
 		}
 		callback = click.pass_context(self.run)
 		commandObj = click.command(
-			name = self.getName(), 
-			help = self.data.get('description'), 
+			name = self.getName(),
+			help = self.data.get('description'),
 			context_settings = context
 		)(callback)
 		
@@ -69,12 +69,11 @@ class Command(object):
 	def getClickObject(self):
 		return self.clickObject
 
-
 	# Needs Tests
 	def run(self, context):
 		""" Runs the given command """
-		print(self.clickObject.params)
+		# print(self.clickObject.params)
 		toCommand = self.data.get('to')
 		extraArgs = ' '.join(context.args)
 		runCommand = '{0} {1}'.format(toCommand, extraArgs)
-		subprocess.call(runCommand, shell=True);
+		subprocess.call(runCommand, shell=True)

@@ -174,3 +174,41 @@ class TestCommand(unittest.TestCase):
 		command.clickObject = 'test'
 		result = command.getClickObject()
 		self.assertEquals(result, 'test')
+
+	"""
+	setClickObject
+	- it correctly generates the clickObject
+	"""	
+	@patch('click.pass_context')
+	@patch('click.command')
+	def test_it_correctly_generates_the_clickObject(self, click_command, pass_context):
+		command = Command({'to': 'foo', 'hop': 'bar'})
+		test_func = MagicMock()
+		test_func.return_value = 'test_command'
+		pass_context.return_value = 'test_function'
+		click_command.return_value = test_func
+		result = command.setClickObject()
+		self.assertEquals(result, 'test_command')
+		pass_context.assert_called_with(command.run)
+		test_func.assert_called_with('test_function')
+		click_command.assert_called_with(
+			name = command.getName(),
+			help = command.data.get('description'),
+			context_settings = {
+				'allow_extra_args': True,
+				'allow_interspersed_args': True,
+			}
+		)
+
+	"""
+	run
+	- it correctly generates the clickObject
+	"""	
+	@patch('subprocess.call')
+	def test_it_correctly_runs_command(self, call_mock):
+		command = Command({'to': 'test', 'hop': 'go'})
+		context = MagicMock()
+		context.args = ['foo', 'bar']
+		expected = 'test foo bar'
+		result = command.run(context)
+		call_mock.assert_called_with(expected, shell=True)

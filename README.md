@@ -26,9 +26,6 @@ commands:
 - Adding group descriptions
 - Currently only searches current directory. Should  look recursively at least 2 times.
 - Testing:
-  - Command
-    - setClickObject
-    - run
   - Group
     - __init__ (children, name, clickObj)
     - getClickObject
