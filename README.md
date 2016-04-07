@@ -7,7 +7,7 @@ A simple yaml based proxy for command line actions
 - All arguments provided after the rabbit 'hop' decleration will be appended to the proxied command
 
 ## Configuration
-Rabbit will look for the closest rabbit.yaml file. This [yaml format](http://docs.ansible.com/YAMLSyntax.html) must contain a commands property. Thie commands property contains a list of all commands to be proxied by rabbit. A site's 'hop' property represents the rabbit arguments and the commands 'to' property defines the actual command to be run in terminal. Simple as that!
+Rabbit will look for the closest rabbit.yaml file. This [yaml](http://docs.ansible.com/YAMLSyntax.html) file must contain a commands property. The commands property is a list of all commands to be proxied by rabbit. A command's 'hop' property represents the rabbit arguments and the command's 'to' property defines the actual command to be run in terminal. Simple as that!
 
 ```yaml
 commands:
@@ -20,25 +20,32 @@ commands:
 ```
 
 ## To Do
-- Display Class: handle printing to console
-  - colours etc
 - Command variables in command['hop'] > command['to']
 - Interpret multi line command 'to' arguments like a bash script
-- Improve test framework
-  - add py34 to tox testing
-  - write tests for:
-    - Command
-    - Config
-- Grouping of commands in "family" for help.
-  - Namespaced with .
-  - Recognise commands in a family and auto generate help for them
-
+- Parse through all options to proxied command
+- Adding group descriptions
+- Currently only searches current directory. Should  look recursively at least 2 times.
+- Testing:
+  - Group
+    - __init__ (children, name, clickObj)
+    - getClickObject
+    - fire
+    - add
+    - resolveGroup
+    - resolveGroups
 
 ### Testing
 Run the following command from project root directory to execute the test suite
+This is best done from within your virtualenv
+  $ tox
 
-	$ python -m unittest discover tests -v
+### Install
+Run the following command from project root directory to execute the install script
+This is best done from within your virtualenv
+  $  python setup.py build && python setup.py install
 
 ### Required Packages
-- [PyYaml](http://pyyaml.org/)
+- [Click](http://pyyaml.org/)
+- [PyYaml](http://click.pocoo.org/)
+
 
