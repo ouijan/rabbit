@@ -1,13 +1,17 @@
 # Rabbit Command Line Hopper
-A simple yaml based proxy for command line actions
+Rabbit is a simple yaml based tool for command line actions. It will read a rabbit.yaml configuration file from the current directory and provide a list available commands.
+
+## Installation
+You will need to have Python and Pip [installed](http://python-packaging-user-guide.readthedocs.org/en/latest/installing/#requirements-for-installing-packages) then run the following command in your cli.
+  $ pip install rabbit
 
 ## Usage
-- rabbit must be able to find a rabbit.yaml file. It will search the current directory and then 2 parent directories
-- 'rabbit help' will display a list of all available rabbit commands
-- All arguments provided after the rabbit 'hop' decleration will be appended to the proxied command
+- Enter 'rabbit' or 'rab' in your command line
+- Rabbit must be able to find a rabbit.yaml file in the current directory.
+- 'rabbit --help' will display a list of all available rabbit commands
 
 ## Configuration
-Rabbit will look for the closest rabbit.yaml file. This [yaml](http://docs.ansible.com/YAMLSyntax.html) file must contain a commands property. The commands property is a list of all commands to be proxied by rabbit. A command's 'hop' property represents the rabbit arguments and the command's 'to' property defines the actual command to be run in terminal. Simple as that!
+Rabbit will look for the closest rabbit.yaml file. This [yaml](http://docs.ansible.com/YAMLSyntax.html) file must contain a commands property. The commands property is a list of all commands to be proxied by rabbit. Simple as that!
 
 ```yaml
 commands:
@@ -19,33 +23,15 @@ commands:
     description: echos 'run node' to the command line
 ```
 
-## To Do
-- Command variables in command['hop'] > command['to']
-- Interpret multi line command 'to' arguments like a bash script
-- Parse through all options to proxied command
-- Adding group descriptions
-- Currently only searches current directory. Should  look recursively at least 2 times.
-- Testing:
-  - Group
-    - __init__ (children, name, clickObj)
-    - getClickObject
-    - fire
-    - add
-    - resolveGroup
-    - resolveGroups
+### Command 
+- A command's 'hop' property represents the rabbit command to be entered.
+- A command's 'to' property defines the actual command to be run in terminal.  
+- All arguments provided after the rabbit 'hop' decleration will be appended to the proxied command.
+- Commands that share a similar hop will be grouped for convinience.
 
-### Testing
-Run the following command from project root directory to execute the test suite
-This is best done from within your virtualenv
-  $ tox
+### [Contributing](CONTRIBUTING.md)
 
-### Install
-Run the following command from project root directory to execute the install script
-This is best done from within your virtualenv
-  $  python setup.py build && python setup.py install
 
-### Required Packages
+### Dependencies
 - [Click](http://pyyaml.org/)
 - [PyYaml](http://click.pocoo.org/)
-
-
