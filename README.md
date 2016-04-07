@@ -3,6 +3,7 @@ Rabbit is a simple yaml based tool for command line actions. It will read a rabb
 
 ## Installation
 You will need to have Python and Pip [installed](http://python-packaging-user-guide.readthedocs.org/en/latest/installing/#requirements-for-installing-packages) then run the following command in your cli.
+
   $ pip install rabbit
 
 ## Usage
@@ -29,9 +30,4 @@ commands:
 - All arguments provided after the rabbit 'hop' decleration will be appended to the proxied command.
 - Commands that share a similar hop will be grouped for convinience.
 
-### [Contributing](CONTRIBUTING.md)
-
-
-### Dependencies
-- [Click](http://pyyaml.org/)
-- [PyYaml](http://click.pocoo.org/)
+## [Contributing](CONTRIBUTING.md)
