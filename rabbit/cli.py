@@ -1,6 +1,6 @@
 import click
-import display
-from app import *
+import rabbit.display
+from rabbit.app import *
 
 
 
