@@ -1,76 +1,95 @@
-#!.env/bin/python
-import os
 import yaml
-from command import Command
+import io
+import copy
 
-class Config (object):
-	""" 
-	Config class for managing rabbit's configuration
+class Config(object):
+	"""Config class for managing rabbit's configuration
 
-	Responsible for :
-	- finding config file based on current working directory
-	- loading a config file
-	- keeping a track of active rabbit.yaml files
-	- providing the available commands / configuration
+	Responsible for:
+	- loading configs
+	- storing configs
 	"""
-	
-	fileName = "rabbit.yaml"
-	searchDepth = 3
 
 	def __init__ (self):
-		self.commands = []
-	
-	def find (self):
-		""" 
-		finds config file based on current working directory 
-		"""
-		fileFound = False
-		depth = 0
-		while (fileFound == False and depth < self.searchDepth):
-			search = './'
-			for index in range(depth):
-				search += '../'
-			search += self.fileName
-			if os.path.isfile(search):
-				fileFound = search
-			depth += 1
-		return fileFound
+		self.data = {}
 
-	def read (self, filepath):
-		"""
-		Reads the given filepath and returns a dict
+
+	def get(self, key, default = None):
+		"""Get the value of a config item
+
+		- (string) key: the data key to access
+		- (mixed) default: value to return if not found
 		"""
 		try:
-			stream = file(filepath, 'r')
-			value = yaml.load(stream)
+			return self.data[key]
+		except:
+			return default
+
+
+	def load(self, filepath):
+		"""Load a file into the config from filepath
+
+		- (string) filepath: the path to the file in the os
+		"""
+		fileData = self._read(filepath)
+		if fileData is not None:
+			self.data = self._merge(self.data, fileData);
+			return True
+		return False
+
+
+	def _read (self, filepath):
+		"""Reads the given filepath and returns a dict
+
+		- (string) filepath: the path to the file in the os
+		"""
+		try:
+			stream = io.open(filepath, 'r')
+			value = yaml.safe_load(stream)
 			return value
 		except:
 			return None
 
-	def load (self, configDict):
-		"""
-		Loads the given config dict into this config
-		"""
-		if configDict is None: return False
-		for command in configDict['commands']:
-			self.commands.append( Command(command) )
-		return None
+	def _merge(self, oldData, newData):
+		"""Recursively merges two data objects
 
-	def findCommand (self, givenCommand):
-		"""
-		Finds the first matching command in the commands list
-		"""
-		found = None
-		for command in self.commands:
-			if command.matches(givenCommand):
-				found = command
-				break;
-		return found
+		Handles merging lists, dicts, and non-iterables. This has not been
+		tested for tuples. It will not affect either of the original objects.
 
-	def displayHelp (self):
-	  """translates config into help and prints it"""
-	  print "\033[1m\033[4m\033[32mRabbit Command Line Hopper \033[0m"
-	  for command in self.commands:
-	    default = "runs '" + command.to + "'"
-	    print "\033[1m\033[36m%-20s \033[0m %-10s" % (command.hop, command.description)
-		
+		- (mixed) oldData: the data to update
+		- (mixed) newData: the data to override with
+		"""
+		origData = copy.copy(oldData)
+		try:
+
+			# if they are both lists just concat them
+			if isinstance(origData, list) and isinstance(newData, list):
+				return origData + newData
+
+			# Set the iterator or return newData
+			iterator = None
+			if isinstance(newData, list): iterator = enumerate(newData)
+			elif isinstance(newData, dict): iterator = newData.items()	
+			else: origData = newData
+
+			# Iterate through setting values
+			for key, val in iterator:
+				
+				# Get old value
+				oldVal = None
+				try: oldVal = origData[key]
+				except: pass
+
+				# If new value isnt None
+				if val is not None:
+					origData[key] = self._merge(origData[key], newData[key])
+					
+				# If it is none and old value not found, set the key
+				elif oldVal is None:
+					origData[key] = None
+
+			# return the modified Data
+			return origData
+		except:
+			return newData
+
