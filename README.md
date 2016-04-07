@@ -3,8 +3,8 @@ Rabbit is a simple yaml based tool for command line actions. It will read a rabb
 
 ## Installation
 You will need to have Python and Pip [installed](http://python-packaging-user-guide.readthedocs.org/en/latest/installing/#requirements-for-installing-packages) then run the following command in your cli.
-
-  $ pip install rabbit
+    
+    $ pip install rabbit
 
 ## Usage
 - Enter 'rabbit' or 'rab' in your command line

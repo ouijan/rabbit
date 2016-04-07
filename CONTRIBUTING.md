@@ -19,15 +19,15 @@
 Run the following command from project root directory to execute the test suite
 This is best done from within your virtualenv
 
-  $ tox
+    $ tox
 
 ### Install
 Run the following command from project root directory to execute the install script
 This should be done from within your virtualenv
   
-  $  python setup.py build && python setup.py install
+    $ python setup.py build && python setup.py install
 
 ### Updating Pip
 This can be done by following [this guide](http://peterdowns.com/posts/first-time-with-pypi.html). Basicly ensure you are in the master branch and it has been version tagged then run:
   
-  $ python setup.py sdist upload -r pypi
+    $ python setup.py sdist upload -r pypi
