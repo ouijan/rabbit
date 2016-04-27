@@ -15,3 +15,5 @@ subunit.log
 tools/lintstack.head.py
 tools/pylint_exceptions
 .cache
+.env
+venv/*
