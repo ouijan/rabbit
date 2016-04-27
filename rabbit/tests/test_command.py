@@ -210,5 +210,25 @@ class TestCommand(unittest.TestCase):
 		context = MagicMock()
 		context.args = ['foo', 'bar']
 		expected = 'test foo bar'
-		result = command.run(context)
+		try:
+			result = command.run(context)
+		except SystemExit as e:
+			self.assertTrue(isinstance(e.code, MagicMock))
 		call_mock.assert_called_with(expected, shell=True)
+
+	"""
+	run
+	- it tests if the run command returns the correct exit codes
+	"""
+	def test_run_command_returns_correct_exit_codes(self):
+		command = Command({'to': 'ls &> /dev/null', 'hop': 'go'})
+		context = MagicMock()
+		try:
+			command.run(context)
+		except SystemExit as e:
+			self.assertEquals(e.code, 0)
+		context.args = ['foo', 'bar']
+		try:
+			command.run(context)
+		except SystemExit as e:
+			self.assertNotEquals(e.code, 0)

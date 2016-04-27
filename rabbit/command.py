@@ -1,5 +1,6 @@
 import click
 import subprocess
+import sys
 
 class Command(object):
 	""" Command Class
@@ -76,4 +77,4 @@ class Command(object):
 		toCommand = self.data.get('to')
 		extraArgs = ' '.join(context.args)
 		runCommand = '{0} {1}'.format(toCommand, extraArgs)
-		subprocess.call(runCommand, shell=True)
+		sys.exit(subprocess.call(runCommand, shell=True))
