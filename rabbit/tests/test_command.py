@@ -231,4 +231,4 @@ class TestCommand(unittest.TestCase):
 		try:
 			command.run(context)
 		except SystemExit as e:
-			self.assertEquals(e.code, 1)
+			self.assertNotEquals(e.code, 0)
