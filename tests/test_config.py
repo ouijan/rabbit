@@ -1,7 +1,7 @@
 import unittest
 from mock import *
 import yaml
-from rabbit.config import *
+from rabbit.config import Config
 
 
 class TestConfig(unittest.TestCase):

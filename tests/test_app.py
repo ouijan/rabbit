@@ -1,6 +1,6 @@
 import unittest
 from mock import *
-from rabbit.app import *
+from rabbit.app import CONFIG_FILE, App
 from rabbit.config import Config
 from rabbit.command import Command
 from rabbit.group import Group
