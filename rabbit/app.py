@@ -1,8 +1,8 @@
 import click
 from os.path import expanduser
-from rabbit.config import Config
-from rabbit.command import Command
-from rabbit.group import Group
+from . import config
+from . import command
+from . import group
 
 CONFIG_FILE = "rabbit.yaml"
 
@@ -17,8 +17,8 @@ class App(object):
 	"""
 	
 	def __init__ (self):
-		self.config = Config()
-		self.baseGroup = Group('base')
+		self.config = config.Config()
+		self.baseGroup = group.Group('base')
 		self.bootstrap()
 
 	def bootstrap (self):
@@ -43,20 +43,20 @@ class App(object):
 		if commands is None:
 			return False
 		for commandData in commands:
-			command = self.createCommand(commandData)
-			self.addCommand(command)
+			cmd = self.createCommand(commandData)
+			self.addCommand(cmd)
 		return True
 
-	def addCommand(self, command):
-		if not isinstance(command, (Command)):
+	def addCommand(self, cmd):
+		if not isinstance(cmd, (command.Command)):
 			return False
-		commandGroups = command.getGroups()
+		commandGroups = cmd.getGroups()
 		childGroup = self.baseGroup.resolveGroups(commandGroups)
-		childGroup.add(command)
+		childGroup.add(cmd)
 		return True
 
 	def createCommand(self, commandData):
-		return Command(commandData)
+		return command.Command(commandData)
 	
 	def run(self):		
 		self.baseGroup.fire()

@@ -1,6 +1,6 @@
 import unittest
 from mock import *
-from rabbit.display import *
+from rabbit.display import welcome
 
 
 # class TestDisplay(unittest.TestCase):
