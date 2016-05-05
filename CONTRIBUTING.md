@@ -7,6 +7,11 @@
 - Adding group descriptions
 - Currently only searches current directory. Should  look recursively at least 2 times.
 - Testing:
+  - Flags
+    - addAll
+    - addVersionFlag
+    - addInitFlag
+    - create_example
   - Group
     - __init__ (children, name, clickObj)
     - getClickObject

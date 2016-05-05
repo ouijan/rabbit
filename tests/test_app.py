@@ -1,17 +1,19 @@
 import unittest
 from mock import *
-from rabbit.app import CONFIG_FILE, App
+from rabbit import settings
+from rabbit.app import App
 from rabbit.config import Config
 from rabbit.command import Command
 from rabbit.group import Group
 
+
 class TestApp(unittest.TestCase):
 
 	def test_it_creates_CONFIG_FILE_global(self):
-		self.assertNotEqual(CONFIG_FILE, None)
+		self.assertNotEqual(settings.CONFIG_FILE, None)
 
 	def test_it_sets_CONFIG_FILE_to_rabbit_yaml(self):
-		self.assertEquals(CONFIG_FILE, 'rabbit.yaml')
+		self.assertEquals(settings.CONFIG_FILE, 'rabbit.yaml')
 
 	def test_it_creates_a_new_object(self):
 		app = App()
@@ -59,10 +61,10 @@ class TestApp(unittest.TestCase):
 	"""
 	@patch('rabbit.config.Config.load')
 	@patch('os.path.expanduser')
-	def test_bootstrap_runs_the_loadLocalComfig(self, expanduser_mock, config_load):
+	def test_bootstrap_runs_the_loadLocalConfig(self, expanduser_mock, config_load):
 		app = App()
 		expanduser_mock.return_value = 'test'
-		homepath = "test/" + CONFIG_FILE
+		homepath = "test/" + settings.CONFIG_FILE
 		app.loadHomeConfig()
 		config_load.assert_called_with(homepath)
 
@@ -71,9 +73,9 @@ class TestApp(unittest.TestCase):
 	- it runs the app.config.load on the correct path
 	"""
 	@patch('rabbit.config.Config.load')
-	def test_bootstrap_runs_the_loadLocalComfig(self, config_load):
+	def test_bootstrap_runs_the_loadLocalConfig(self, config_load):
 		app = App()
-		localpath = "./" + CONFIG_FILE
+		localpath = "./" + settings.CONFIG_FILE
 		app.loadLocalConfig()
 		config_load.assert_called_with(localpath)
 
