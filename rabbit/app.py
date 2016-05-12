@@ -52,6 +52,7 @@ class App(object):
 		return True
 
 	def addCommand(self, cmd):
+		""" adds a command to the base group """
 		if not isinstance(cmd, (command.Command)):
 			return False
 		commandGroups = cmd.getGroups()
@@ -60,7 +61,9 @@ class App(object):
 		return True
 
 	def createCommand(self, commandData):
+		""" creates a command object """
 		return command.Command(commandData)
 
-	def run(self):		
+	def run(self):
+		""" executes the click basegroup object """
 		self.baseGroup.fire()

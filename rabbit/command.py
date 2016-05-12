@@ -39,6 +39,7 @@ class Command(object):
 		return True
 
 	def getGroups(self):
+		""" gets all the groups for this command """
 		hop = self.data.get('hop')
 		if hop is None:
 			return []
@@ -46,6 +47,7 @@ class Command(object):
 		return segmented[:-1]
 
 	def getName(self):
+		""" gets the name of this command """
 		hop = self.data.get('hop')
 		if hop is None:
 			return None
@@ -54,6 +56,7 @@ class Command(object):
 
 	# Needs Tests
 	def setClickObject(self):
+		""" sets the click object of this command """
 		context = {
 			'allow_extra_args': True,
 			'allow_interspersed_args': True,
@@ -68,12 +71,12 @@ class Command(object):
 		return commandObj
 
 	def getClickObject(self):
+		""" gets the click object of this command """
 		return self.clickObject
 
 	# Needs Tests
 	def run(self, context):
 		""" Runs the given command """
-		# print(self.clickObject.params)
 		toCommand = self.data.get('to')
 		extraArgs = ' '.join(context.args)
 		runCommand = '{0} {1}'.format(toCommand, extraArgs)

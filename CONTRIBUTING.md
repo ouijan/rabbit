@@ -1,6 +1,10 @@
 # Contributing
 
 # To Do
+- Group and Command Classes should share a parent that:
+    - adds flags
+    - handles click object
+    - has fire call which is overriden
 - Command variables in command['hop'] > command['to']
 - Interpret multi line command 'to' arguments like a bash script
 - Parse through all options to proxied command
