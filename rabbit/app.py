@@ -3,8 +3,9 @@ from os.path import expanduser
 from . import config
 from . import command
 from . import group
+from . import flags
+from . import settings
 
-CONFIG_FILE = "rabbit.yaml"
 
 class App(object):
 	""" Base application class
@@ -19,6 +20,8 @@ class App(object):
 	def __init__ (self):
 		self.config = config.Config()
 		self.baseGroup = group.Group('base')
+		self.name = settings.NAME
+		self.version = settings.VERSION
 		self.bootstrap()
 
 	def bootstrap (self):
@@ -26,15 +29,16 @@ class App(object):
 		self.loadHomeConfig()
 		self.loadLocalConfig()
 		self.loadCommands()
+		flags.addAll(self.baseGroup.clickObj)
 
 	def loadHomeConfig (self):
 		""" Load Config From Home Directory """
-		homepath = expanduser('~') + '/' + CONFIG_FILE
+		homepath = expanduser('~') + '/' + settings.CONFIG_FILE
 		self.config.load(homepath)
 
 	def loadLocalConfig (self):
 		""" Load Config From Local (Current) Directory """
-		localpath = './' + CONFIG_FILE
+		localpath = './' + settings.CONFIG_FILE
 		self.config.load(localpath)
 
 	def loadCommands (self):
@@ -48,6 +52,7 @@ class App(object):
 		return True
 
 	def addCommand(self, cmd):
+		""" adds a command to the base group """
 		if not isinstance(cmd, (command.Command)):
 			return False
 		commandGroups = cmd.getGroups()
@@ -56,9 +61,9 @@ class App(object):
 		return True
 
 	def createCommand(self, commandData):
+		""" creates a command object """
 		return command.Command(commandData)
-	
-	def run(self):		
+
+	def run(self):
+		""" executes the click basegroup object """
 		self.baseGroup.fire()
-
-
