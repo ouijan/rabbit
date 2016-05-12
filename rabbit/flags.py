@@ -18,7 +18,7 @@ def addVersionFlag(clickObj):
   Add version flag to given clickObj 
   """
   click.version_option(
-    version=None,
+    version=settings.VERSION,
     prog_name=settings.NAME
   )(clickObj)
 

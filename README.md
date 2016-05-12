@@ -30,4 +30,4 @@ commands:
 - All arguments provided after the rabbit 'hop' decleration will be appended to the proxied command.
 - Commands that share a similar hop will be grouped for convinience.
 
-## [Contributing](CONTRIBUTING.md)
+### [Contributing](CONTRIBUTING.md)
