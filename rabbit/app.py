@@ -21,7 +21,6 @@ class App(object):
 		self.config = config.Config()
 		self.baseGroup = group.Group('base')
 		self.name = settings.NAME
-		self.version = settings.VERSION
 		self.bootstrap()
 
 	def bootstrap (self):
