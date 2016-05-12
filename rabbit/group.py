@@ -1,5 +1,5 @@
 import click
-from rabbit.command import Command
+from . import command
 
 # Needs Tests
 class Group(object):
@@ -19,7 +19,7 @@ class Group(object):
 
 	# Needs Tests
 	def add(self, child):
-		if isinstance(child, (Command)) and not child.isValid():
+		if isinstance(child, (command.Command)) and not child.isValid():
 			return False
 		self.children.append(child)
 		clickObj = child.getClickObject()

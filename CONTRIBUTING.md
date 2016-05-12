@@ -1,12 +1,21 @@
 # Contributing
 
 # To Do
+- Group and Command Classes should share a parent that:
+    - adds flags
+    - handles click object
+    - has fire call which is overriden
 - Command variables in command['hop'] > command['to']
 - Interpret multi line command 'to' arguments like a bash script
 - Parse through all options to proxied command
 - Adding group descriptions
 - Currently only searches current directory. Should  look recursively at least 2 times.
 - Testing:
+  - Flags
+    - addAll
+    - addVersionFlag
+    - addInitFlag
+    - create_example
   - Group
     - __init__ (children, name, clickObj)
     - getClickObject
