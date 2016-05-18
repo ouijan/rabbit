@@ -23,6 +23,8 @@
     - add
     - resolveGroup
     - resolveGroups
+  - App
+    - getVersion
 
 ### Testing
 Run the following command from project root directory to execute the test suite
