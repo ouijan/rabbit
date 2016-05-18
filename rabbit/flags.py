@@ -5,25 +5,25 @@ from . import settings
 from . import display
 
 # Needs Tests
-def addAll(clickObj):
+def addAll(app):
   """ 
   Add all flags to the given clickObj 
   """
-  addInitFlag(clickObj)
-  addVersionFlag(clickObj)
+  addInitFlag(app)
+  addVersionFlag(app)
 
 # Needs Tests
-def addVersionFlag(clickObj):
+def addVersionFlag(app):
   """ 
   Add version flag to given clickObj 
   """
   click.version_option(
-    version=None,
+    version=app.version,
     prog_name=settings.NAME
-  )(clickObj)
+  )(app.baseGroup.clickObj)
 
 # Needs Tests
-def addInitFlag(clickObj):
+def addInitFlag(app):
   """ 
   Add init flag to given clickObj: 
   calls create_example 
@@ -34,7 +34,7 @@ def addInitFlag(clickObj):
     callback=create_example,
     expose_value=False,
     is_eager=True
-  )(clickObj)
+  )(app.baseGroup.clickObj)
 
 # Needs Tests
 def create_example(ctx, param, value):

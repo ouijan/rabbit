@@ -1,10 +1,13 @@
+import sys
 import click
+import pkg_resources
 from os.path import expanduser
 from . import config
 from . import command
 from . import group
 from . import flags
 from . import settings
+from . import display
 
 
 class App(object):
@@ -21,6 +24,7 @@ class App(object):
 		self.config = config.Config()
 		self.baseGroup = group.Group('base')
 		self.name = settings.NAME
+		self.version = self.getVersion();
 		self.bootstrap()
 
 	def bootstrap (self):
@@ -28,7 +32,7 @@ class App(object):
 		self.loadHomeConfig()
 		self.loadLocalConfig()
 		self.loadCommands()
-		flags.addAll(self.baseGroup.clickObj)
+		flags.addAll(self)
 
 	def loadHomeConfig (self):
 		""" Load Config From Home Directory """
@@ -66,3 +70,14 @@ class App(object):
 	def run(self):
 		""" executes the click basegroup object """
 		self.baseGroup.fire()
+
+	def getVersion(self):
+		"""
+		Finds the installed version of this package/application
+		Uses pkg_resources and self.name to determine installed
+		packages and the version of that package installed.
+		"""
+		module = self.name
+		dist = pkg_resources.get_distribution(module)
+		return dist.version
+
