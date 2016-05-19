@@ -69,7 +69,7 @@ class App(object):
 
 	def run(self):
 		""" executes the click basegroup object """
-		self.baseGroup.fire()
+		self.baseGroup.run()
 
 	def getVersion(self):
 		"""
