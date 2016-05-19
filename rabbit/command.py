@@ -12,7 +12,7 @@ def transformData(data = {}):
 	hop = data.get('hop')
 	to = data.get('to')
 	description = data.get('description')
-	if !hop or !to:
+	if hop is None or to is None:
 		return None
 	return Command(hop, to, description)
 
@@ -35,7 +35,7 @@ class Command(group.Group):
 		self.data['hop'] = hop
 		self.data['to'] = to
 		self.data['description'] = description;
-		if !self.data['description']:
+		if self.data['description'] is None:
 			self.data['description'] = self.generateDescription()
 
 		# Run parent constructor with this name

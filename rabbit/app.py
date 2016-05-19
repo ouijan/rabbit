@@ -65,7 +65,7 @@ class App(object):
 
 	def createCommand(self, commandData):
 		""" creates a command object """
-		return command.Command(commandData)
+		return command.transformData(commandData)
 
 	def run(self):
 		""" executes the click basegroup object """

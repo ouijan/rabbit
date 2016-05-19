@@ -1,5 +1,4 @@
 import click
-from . import command
 from . import clickObject
 
 # Needs Tests
@@ -23,6 +22,8 @@ class Group(clickObject.ClickObject):
 		super(Group, self).__init__(name)
 		self.children = []
 
+	def build(self):
+		return click.Group(self.name)
 
 	# Needs Tests
 	def run(self):
@@ -37,12 +38,6 @@ class Group(clickObject.ClickObject):
 		@params object 	child - child to add
 		@return	boolean				- True if successfull
 		"""
-
-		# If it is a command and the command is not valid exit
-		if isinstance(child, (command.Command)) and not child.isValid():
-			return False
-
-		# append object to children array
 		self.children.append(child)
 		childClick = child.getClick()
 		self.getClick().add_command(childClick)

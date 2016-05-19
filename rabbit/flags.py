@@ -7,7 +7,7 @@ from . import display
 # Needs Tests
 def addAll(app):
   """ 
-  Add all flags to the given clickObj 
+  Add all flags to the given click object
   """
   addInitFlag(app)
   addVersionFlag(app)
@@ -15,17 +15,17 @@ def addAll(app):
 # Needs Tests
 def addVersionFlag(app):
   """ 
-  Add version flag to given clickObj 
+  Add version flag to given click object
   """
   click.version_option(
     version=app.version,
     prog_name=settings.NAME
-  )(app.baseGroup.clickObj)
+  )(app.baseGroup.getClick())
 
 # Needs Tests
 def addInitFlag(app):
   """ 
-  Add init flag to given clickObj: 
+  Add init flag to given click object
   calls create_example 
   """
   click.option(
@@ -34,7 +34,7 @@ def addInitFlag(app):
     callback=create_example,
     expose_value=False,
     is_eager=True
-  )(app.baseGroup.clickObj)
+  )(app.baseGroup.getClick())
 
 # Needs Tests
 def create_example(ctx, param, value):
